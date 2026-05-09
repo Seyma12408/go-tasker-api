@@ -101,10 +101,10 @@ GoTasker/
 └── main.go        # Ana uygulama giriş dosyası
 ```
 
-## 🤝 Katkıda Bulunma
+<img width="1419" height="782" alt="Ekran görüntüsü 2026-05-09 194449" src="https://github.com/user-attachments/assets/d7a6502d-0626-41dc-865c-fac0355ad109" />
+<img width="1895" height="585" alt="Ekran görüntüsü 2026-05-09 194341" src="https://github.com/user-attachments/assets/de5b839f-5cfb-425d-bbd1-eea5ee04e58f" />
 
-Katkılarınızı bekliyoruz! Bir sorun (issue) açabilir veya bir çekme isteği (pull request) gönderebilirsiniz.
+<img width="1691" height="761" alt="Ekran görüntüsü 2026-05-09 194326" src="https://github.com/user-attachments/assets/3ff44073-63d9-4c24-97e7-66d4537f02fc" />
+<img width="1745" height="819" alt="Ekran görüntüsü 2026-05-09 194406" src="https://github.com/user-attachments/assets/bdde7f00-b2fa-422f-a413-7bf0eed74592" />
+<img width="1754" height="814" alt="Ekran görüntüsü 2026-05-09 194425" src="https://github.com/user-attachments/assets/cce29005-2333-4187-8490-b64558eff9a4" />
 
-## 📄 Lisans
-
-Bu proje MIT Lisansı ile lisanslanmıştır.
