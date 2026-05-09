@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoTasker | Premium Görev Yönetimi</title>
+    <!-- Modern Font: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <div class="toast-content">
+            <i class="fas fa-info-circle toast-icon"></i>
+            <span id="toast-msg">Bildirim Mesajı</span>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+
+    <main class="app-container">
+        
+        <!-- Auth Section -->
+        <section id="auth-section" class="glass-panel active">
+            <div class="auth-header">
+                <div class="logo">
+                    <div class="logo-icon"><i class="fas fa-check-double"></i></div>
+                    <h1>GoTasker</h1>
+                </div>
+                <p>Modern çalışma alanınıza hoş geldiniz.</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Giriş Yap</button>
+                <button class="tab-btn" id="tab-register" onclick="switchAuthTab('register')">Kayıt Ol</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active" onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="login-email" placeholder="E-posta Adresi" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="login-password" placeholder="Parola" required>
+                </div>
+                <button type="submit" class="btn-primary">
+                    <span>Giriş Yap</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form hidden" onsubmit="handleRegister(event)">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="reg-name" placeholder="Kullanıcı Adı" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="reg-email" placeholder="E-posta Adresi" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="reg-password" placeholder="Parola" required>
+                </div>
+                <button type="submit" class="btn-primary">
+                    <span>Hesap Oluştur</span>
+                    <i class="fas fa-user-plus"></i>
+                </button>
+            </form>
+        </section>
+
+
+        <!-- Dashboard Layout -->
+        <section id="dashboard-section" class="glass-panel dashboard-layout hidden">
+            <aside class="sidebar">
+                <div class="logo-small">
+                    <div class="logo-icon-small"><i class="fas fa-check-double"></i></div>
+                    <h2>GoTasker</h2>
+                </div>
+                <div class="user-profile">
+                    <div class="avatar"><i class="fas fa-user-astronaut"></i></div>
+                    <div class="user-info">
+                        <span id="user-display-name">Yükleniyor...</span>
+                        <small class="badge">Pro Üye</small>
+                    </div>
+                </div>
+                <nav class="nav-menu">
+                    <a href="#" class="nav-link active" onclick="switchView('dashboard', this)"><i class="fas fa-border-all"></i> Kontrol Paneli</a>
+                    <a href="#" class="nav-link" onclick="switchView('calendar', this)"><i class="fas fa-calendar-alt"></i> Takvim</a>
+                    <a href="#" class="nav-link" onclick="switchView('settings', this)"><i class="fas fa-cog"></i> Ayarlar</a>
+                    <div class="spacer"></div>
+                    <a href="#" class="nav-link logout" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
+                </nav>
+            </aside>
+
+            <div class="main-content">
+                
+                <!-- VIEW: DASHBOARD -->
+                <div id="view-dashboard" class="view-panel active">
+                    <header class="dashboard-header">
+                        <div class="header-titles">
+                            <h1>Görevleriniz</h1>
+                            <p>Bugün işleri yoluna koyalım. 🚀</p>
+                        </div>
+                        <button class="btn-primary btn-add" onclick="openTaskModal()">
+                            <i class="fas fa-plus"></i> Yeni Görev
+                        </button>
+                    </header>
+
+                    <div class="tasks-container">
+                        <div class="tasks-header">
+                            <h3><i class="fas fa-list-ul" style="color: var(--primary); margin-right: 8px;"></i> Tüm Görevler</h3>
+                            <div class="task-stats" id="task-stats">0 Görev</div>
+                        </div>
+                        <div id="tasks-list" class="tasks-list">
+                            <!-- Tasks will be injected here via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: CALENDAR -->
+                <div id="view-calendar" class="view-panel hidden">
+                    <header class="dashboard-header">
+                        <div class="header-titles">
+                            <h1>Takvim</h1>
+                            <p>Oluşturduğunuz görevlerin tarihleri. 📅</p>
+                        </div>
+                    </header>
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <button class="btn-icon" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                            <h2 id="calendar-month-year">Mayıs 2026</h2>
+                            <button class="btn-icon" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <div class="calendar-grid">
+                            <div class="calendar-day-name">Pzt</div>
+                            <div class="calendar-day-name">Sal</div>
+                            <div class="calendar-day-name">Çar</div>
+                            <div class="calendar-day-name">Per</div>
+                            <div class="calendar-day-name">Cum</div>
+                            <div class="calendar-day-name">Cmt</div>
+                            <div class="calendar-day-name">Paz</div>
+                            <!-- Days injected here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: SETTINGS -->
+                <div id="view-settings" class="view-panel hidden">
+                    <header class="dashboard-header">
+                        <div class="header-titles">
+                            <h1>Ayarlar</h1>
+                            <p>Hesap bilgilerinizi güncelleyin. ⚙️</p>
+                        </div>
+                    </header>
+                    
+                    <div class="settings-container">
+                        <form id="settings-form" onsubmit="handleUpdateProfile(event)">
+                            <div class="settings-section-title">Profil Bilgileri</div>
+                            <div class="input-group">
+                                <label>Kullanıcı Adı</label>
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="set-username" placeholder="Yeni kullanıcı adı" required>
+                            </div>
+                            <div class="input-group">
+                                <label>E-posta Adresi</label>
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="set-email" placeholder="Yeni e-posta" required>
+                            </div>
+                            
+                            <div class="settings-section-title" style="margin-top: 30px;">Güvenlik</div>
+                            <div class="input-group">
+                                <label>Yeni Parola (Değiştirmek istemiyorsanız boş bırakın)</label>
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="set-password" placeholder="Yeni parolanız">
+                            </div>
+
+                            <button type="submit" class="btn-primary" style="margin-top: 20px;">
+                                <i class="fas fa-save"></i> Değişiklikleri Kaydet
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Add/Edit Task Modal -->
+    <div id="task-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <div class="modal-title-wrapper">
+                    <div class="modal-icon"><i class="fas fa-edit"></i></div>
+                    <h3 id="modal-title">Yeni Görev Oluştur</h3>
+                </div>
+                <button class="close-btn" onclick="closeTaskModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="task-form" onsubmit="handleTaskSubmit(event)">
+                <input type="hidden" id="task-id">
+                <div class="input-group">
+                    <label for="task-title">Başlık</label>
+                    <input type="text" id="task-title" placeholder="Ne yapılması gerekiyor?" required>
+                </div>
+                <div class="input-group">
+                    <label for="task-desc">Açıklama</label>
+                    <textarea id="task-desc" rows="4" placeholder="Biraz detay ekleyin..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeTaskModal()">İptal</button>
+                    <button type="submit" class="btn-primary">Görevi Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/app.js"></script>
+</body>
+</html>
